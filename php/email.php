@@ -3,10 +3,9 @@
     $email = $_POST['email'];
     $caminho = "../usuarios/";
     $usuarios = scandir($caminho);
-    session_start();
     if (in_array(md5($email).'.json', $usuarios)) {
+        session_start();
         $_SESSION['acesso'] = false;
-        session_cache_expire(5);
     }
     else{
         $userInfo = array(
@@ -16,13 +15,14 @@
         $arquivoUser = fopen($caminho.md5($email).'.json', 'a');
         fwrite($arquivoUser, json_encode($userInfo));
         fclose($arquivoUser);
+        session_start();
         $_SESSION['acesso'] = true;
-        session_cache_expire(5);
-        mail(
-            $email,
-            'Testando pra ver se vai!',
-            'Meu deus é serio que foi?',
-            "From: Kaykynho Gameplays"
-        );
+
+        // mail(
+        //     $email,
+        //     'Testando pra ver se vai!',
+        //     'Meu deus é serio que foi?',
+        //     "From: Kaykynho Gameplays"
+        // );
     }
 ?>
